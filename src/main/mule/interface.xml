@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd ">
-    <apikit:config name="diy_3_accounts-config" api="resource::bc21a15f-bbd6-4306-a493-5e4583426fa8:diy_3_accounts:1.0.0:raml:zip:diy_3_accounts.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
+    <apikit:config name="diy_3_accounts-config" api="resource::bc21a15f-bbd6-4306-a493-5e4583426fa8:diy_3_accounts:1.0.1:raml:zip:diy_3_accounts.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
     <flow name="diy_3_accounts-main">
         <http:listener config-ref="HTTP_Listener_config" path="/api/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
@@ -121,31 +121,7 @@ output application/json
         </error-handler>
     </flow>
     <flow name="get:\accounts:diy_3_accounts-config">
-        <ee:transform doc:name="Transform Message">
-            <ee:message>
-                <ee:set-payload><![CDATA[%dw 2.0
-output application/json
----
-[
-  {
-    id: 1,
-    name: "ACME",
-    "type": "business",
-    address: "1 Main St,Los Angeles,CA,92000,USA",
-    airmiles: 5000,
-    creationdate: "2020-09-21T12:00:00Z"
-  }, 
-  {
-    id: 2,
-    name: "Jane Doe",
-    "type": "personal",
-    address: "1 Main St,Los Angeles,CA,92000,USA",
-    airmiles: 50000,
-    creationdate: "2010-01-01T00:00:00Z"
-  }
-] as Array {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
-            </ee:message>
-        </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="07ae30d6-20e6-46c2-b7a2-37353b82f58e" name="getaccounts"/>
     </flow>
     <flow name="post:\accounts:application\json:diy_3_accounts-config">
         <ee:transform doc:name="Transform Message">
@@ -158,5 +134,8 @@ output application/json
 } as Object {encoding: "UTF-8", mediaType: "application/json"}]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+    </flow>
+    <flow name="get:\accounts\(id):diy_3_accounts-config">
+		<flow-ref doc:name="Flow Reference" doc:id="98a6c592-440e-4391-b75e-d53b8c7ed9b1" name="getaccountsByid"/>
     </flow>
 </mule>

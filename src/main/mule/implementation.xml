@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<db:config name="Database_Config" doc:name="Database Config" doc:id="4693d974-1641-4180-81d7-1f674a7a2694" >
 		<db:my-sql-connection host="mudb.learn.mulesoft.com" port="3306" user="mule" password="mule" database="training" />
 	</db:config>
-	<flow name="accountFlow" doc:id="3d2bf45c-0b01-47e6-8c0f-e8960580424c" >
+	<flow name="getaccounts" doc:id="3d2bf45c-0b01-47e6-8c0f-e8960580424c" >
 		<db:select doc:name="Select" doc:id="396fe6dd-2dae-438e-8543-8b6bc798bb00" config-ref="Database_Config">
 			<db:sql ><![CDATA[select * from flights_customers]]></db:sql>
 		</db:select>
@@ -29,6 +29,20 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 	airmiles: payload01.miles default 0,
 	creationdate: payload01.creationDate as String default ""
 }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="getaccountsByid" doc:id="bf44c130-32a2-4105-a41a-ac8f7fa5bcba" >
+		<db:select doc:name="Select" doc:id="914caaef-354a-401c-8546-0b2b347920ed" config-ref="Database_Config">
+			<db:sql ><![CDATA[select * from flights_customers where accountID = :id]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'id' : attributes.uriParams.id}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="47f8efd4-e90a-4b68-aec8-02e3a6cdfd7d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>

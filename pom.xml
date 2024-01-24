@@ -66,17 +66,17 @@
 			<version>8.0.16</version>
 		</dependency>
 		<dependency>
-			<groupId>bc21a15f-bbd6-4306-a493-5e4583426fa8</groupId>
-			<artifactId>diy_3_accounts</artifactId>
-			<version>1.0.0</version>
-			<classifier>raml</classifier>
-			<type>zip</type>
-		</dependency>
-		<dependency>
 			<groupId>org.mule.modules</groupId>
 			<artifactId>mule-apikit-module</artifactId>
 			<version>1.9.2</version>
 			<classifier>mule-plugin</classifier>
+		</dependency>
+		<dependency>
+			<groupId>bc21a15f-bbd6-4306-a493-5e4583426fa8</groupId>
+			<artifactId>diy_3_accounts</artifactId>
+			<version>1.0.1</version>
+			<classifier>raml</classifier>
+			<type>zip</type>
 		</dependency>
 	</dependencies>
 
